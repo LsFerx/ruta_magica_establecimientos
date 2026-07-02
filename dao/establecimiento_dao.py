@@ -11,20 +11,21 @@ class EstablecimientoDAO:
 
         registros = cursor.fetchall()
 
-        stablecimientos = []
+        establecimientos = []
+
         for registro in registros:
             establecimiento = Establecimiento(
                 id = registro [0],
                 nombre = registro [1],
                 propietario = registro [2],
                 categoria = registro [3],
-                telefono= = registro[4],
+                telefono = registro[4],
             )
 
-            establecimiento.append(establecimiento)
+            establecimientos.append(establecimiento)
         cursor.close()
         conexion.close()
-        return establecimiento
+        return establecimientos
     
     #INSERT
     def insertar(self, establecimiento):
@@ -32,7 +33,7 @@ class EstablecimientoDAO:
         cursor = conexion.cursor()
 
         sql = """
-        INSERT INTO Establecimiento(id,nombre, propietario, categoria, telefono)
+        INSERT INTO establecimientos(id, nombre, propietario, categoria, telefono)
         VALUES(%s, %s, %s, %s, %s)
         """
         cursor.execute(sql, (
@@ -53,16 +54,16 @@ class EstablecimientoDAO:
         cursor = conexion.cursor()
 
         sql = """
-        UPDATE Establecimiento
+        UPDATE establecimientos
         SET nombre = %s, propietario = %s, categoria = %s, telefono = %s
         WHERE id = %s
         """
         cursor.execute(sql, (
-                      establecimiento.id,
                       establecimiento.nombre,
                       establecimiento.propietario,
                       establecimiento.categoria,
                       establecimiento.telefono,
+                      establecimiento.id,
                       ))
 
         conexion.commit()
@@ -74,7 +75,7 @@ class EstablecimientoDAO:
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
         
-        cursor.execute("DELETE FROM Establecimiento WHERE id_establecimiento = %s",(id,))
+        cursor.execute("DELETE FROM establecimientos WHERE id = %s",(id,))
 
         conexion.commit()
         cursor.close()
@@ -84,7 +85,7 @@ class EstablecimientoDAO:
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
 
-        cursor.execute("SELECT MAX(id_establecimiento) FROM Establecimientos")
+        cursor.execute("SELECT MAX(id) FROM establecimientos")
         resultado = cursor.fetchone()
 
         cursor.close()
